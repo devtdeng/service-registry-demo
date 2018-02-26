@@ -1,0 +1,8 @@
+---
+applications:
+- name: consumer-demo
+  memory: 1024M
+  buildpack: java_buildpack_offline
+  path: target/consumer-demo-0.0.1-SNAPSHOT.jar
+  services:
+  - service-registry

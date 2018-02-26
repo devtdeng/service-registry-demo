@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: producer-demo
+  cloud:
+    services:
+      registrationMethod: route  
+      # registrationMethod: direct
+
+security:
+  basic:
+    enabled: false
+
+eureka:
+  instance:
+    hostname: ${vcap.application.uris[0]}
+    lease-renewal-interval-in-seconds: 10    # default 30
+    lease-expiration-duration-in-seconds: 60 # default 90

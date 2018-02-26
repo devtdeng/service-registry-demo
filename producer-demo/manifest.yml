@@ -1,0 +1,9 @@
+---
+applications:
+- name: producer-demo
+  instances: 3
+  memory: 1024M
+  buildpack: java_buildpack_offline
+  path: target/producer-demo-0.0.1-SNAPSHOT.jar
+  services:
+  - service-registry
