@@ -1,3 +1,7 @@
 security:
   basic:
     enabled: false
+
+eureka:
+  instance:
+    registryFetchIntervalSeconds: 60 # default 30
