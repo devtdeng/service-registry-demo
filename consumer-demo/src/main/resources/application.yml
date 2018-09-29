@@ -1,7 +1,14 @@
+spring:
+  cloud:
+    services:
+      registrationMethod: route  
+
 security:
   basic:
     enabled: false
 
 eureka:
   instance:
-    registryFetchIntervalSeconds: 60 # default 30
+    hostname: ${vcap.application.uris[0]}
+    lease-renewal-interval-in-seconds: 30    # default 30
+    lease-expiration-duration-in-seconds: 60 # default 90
