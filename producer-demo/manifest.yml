@@ -5,8 +5,9 @@ applications:
   memory: 1024M
   buildpack: java_buildpack_offline
   path: target/producer-demo-0.0.1-SNAPSHOT.jar
+  env:
+    SPRING_PROFILES_ACTIVE: development 
+    # DEBUG: "true"
   services:
   - service-registry
-  env:
-    # SPRING_PROFILES_ACTIVE: cloud
-    # DEBUG: "true"
+  - config-server

@@ -1,7 +1,8 @@
 spring:
   cloud:
-    services:
-      registrationMethod: route  
+    service-registry:
+      auto-registration:
+        enabled: false  # disable auto registration
 
 security:
   basic:

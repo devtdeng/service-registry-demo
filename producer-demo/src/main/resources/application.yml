@@ -11,7 +11,5 @@ security:
 eureka:
   instance:
     hostname: ${vcap.application.uris[0]}
-    # default 30
-    # lease-renewal-interval-in-seconds: 10 
-    # default 90,  setting less than 60 seconds doesn't take effect as eureka.server.eviction-interval-timer-in-ms is 60s by default 
-    # lease-expiration-duration-in-seconds: 60
+    lease-renewal-interval-in-seconds: 30       # default 30
+    lease-expiration-duration-in-seconds: 60    # default 90
