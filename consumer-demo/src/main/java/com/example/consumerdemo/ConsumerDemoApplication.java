@@ -1,9 +1,12 @@
 package com.example.consumerdemo;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
@@ -12,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-// Disable auto registartion
-@EnableDiscoveryClient(autoRegister=false)
+@EnableDiscoveryClient
+@EnableCircuitBreaker
 @RestController
 public class ConsumerDemoApplication {
 	@Value("${current_profile}")
@@ -42,8 +45,17 @@ public class ConsumerDemoApplication {
         return "The current profile from config server is: " + profile;
     }
 
-	@RequestMapping("/testconsumer")
-	public String testConsumer() {
-        return restTemplate.getForObject("https://producer-demo/testEureka", String.class);
-	}
+	@RequestMapping("/testproducer")
+	public String testProducer() {
+        return getProducer();
+    }   
+
+    @HystrixCommand(fallbackMethod = "getBackupProducer")
+    public String getProducer() {
+      return restTemplate.getForObject("https://producer-demo/testeureka", String.class);
+    }
+
+    String getBackupProducer() {
+        return "Producer is not available! This is backup!";
+    }    
 }

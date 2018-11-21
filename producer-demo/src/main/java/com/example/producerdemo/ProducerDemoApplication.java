@@ -30,10 +30,11 @@ public class ProducerDemoApplication {
 
     @RequestMapping("/testeureka")
     public String testEureka() {
+
         String cfInstanceAddr = System.getenv("CF_INSTANCE_ADDR");
         String cfInstanceInternalIP = System.getenv("CF_INSTANCE_INTERNAL_IP");
         String cfInstnaceIndex = System.getenv("CF_INSTANCE_INDEX");
     
-        return "Response from:" + "<br />" + "CF_INSTANCE_ADDR: " + cfInstanceAddr + "<br />" + "CF_INSTANCE_INTERNAL_IP: " + cfInstanceInternalIP + "<br />" + "CF_INSTANCE_INDEX " + cfInstnaceIndex;
+        return "Response from Producer:" + "<br />" + "CF_INSTANCE_ADDR: " + cfInstanceAddr + "<br />" + "CF_INSTANCE_INTERNAL_IP: " + cfInstanceInternalIP + "<br />" + "CF_INSTANCE_INDEX " + cfInstnaceIndex;
     }
 }

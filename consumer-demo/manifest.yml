@@ -10,3 +10,4 @@ applications:
   services:
   - service-registry
   - config-server
+  - cbd
