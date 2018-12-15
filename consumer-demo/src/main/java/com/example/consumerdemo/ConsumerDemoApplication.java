@@ -1,18 +1,13 @@
 package com.example.consumerdemo;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -21,15 +16,6 @@ import org.springframework.web.client.RestTemplate;
 public class ConsumerDemoApplication {
 	@Value("${current_profile}")
 	String profile;
-
-    @Autowired
-    private RestTemplate restTemplate;
-    
-	@Bean
-    @LoadBalanced
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
 
 	public static void main(String[] args) {
 		SpringApplication.run(ConsumerDemoApplication.class, args);
@@ -45,17 +31,14 @@ public class ConsumerDemoApplication {
         return "The current profile from config server is: " + profile;
     }
 
+	private final Agent agent;
+
+	public ConsumerDemoApplication(Agent agent){
+		this.agent = agent;
+	}	
+
 	@RequestMapping("/testproducer")
-	public String testProducer() {
-        return getProducer();
-    }   
-
-    @HystrixCommand(fallbackMethod = "getBackupProducer")
-    public String getProducer() {
-      return restTemplate.getForObject("https://producer-demo/testeureka", String.class);
-    }
-
-    String getBackupProducer() {
-        return "Producer is not available! This is backup!";
-    }    
+	public String testproducer(){
+		return agent.callProducer();
+	}    
 }
